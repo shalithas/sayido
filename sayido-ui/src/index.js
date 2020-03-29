@@ -1,20 +1,23 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import './index.css';
-import App from './app/layout/App';
-import * as serviceWorker from './serviceWorker';
+import React from "react";
+import { BrowserRouter } from "react-router-dom";
+import ReactDOM from "react-dom";
+import "./index.css";
+import App from "./app/layout/App";
+import * as serviceWorker from "./serviceWorker";
 
-const render = () => {
+const rootEl = document.getElementById("root");
+
+let render = () => {
   ReactDOM.render(
-    <React.StrictMode>
+    <BrowserRouter>
       <App />
-    </React.StrictMode>,
-    document.getElementById('root')
+    </BrowserRouter>,
+    rootEl
   );
-}
+};
 
-if(module.hot){
-  module.hot.accept('./app/layout/App', () => {
+if (module.hot) {
+  module.hot.accept("./app/layout/App", () => {
     setTimeout(render);
   });
 }

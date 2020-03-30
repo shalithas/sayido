@@ -1,36 +1,50 @@
 import React, { Component } from "react";
-import { Table, Label, Menu, Icon } from "semantic-ui-react";
-
+import { Table, Label, Menu, Icon, Button } from "semantic-ui-react";
+import { connect } from "react-redux";
+import { fetchGuests } from "../guestActions";
+import LoadingIndicater from "../../../app/layout/LoadingIndicater";
 class GuestList extends Component {
+  state = {
+    pages: 10,
+    currentPage: 1
+  };
+
+  handlePageChange = page => {
+    this.props.fetchGuests(page);
+    this.setState({ currentPage: page });
+  }
+
   render() {
+
+    const PageList = () => {
+      const pages = [];
+      for(let i = 1; i <= this.state.pages; i++){
+        pages.push(<Menu.Item key={i} as={Button} active={this.state.currentPage === i} onClick={() => this.handlePageChange(i)}>{i}</Menu.Item>)
+      }
+      return pages;
+    }
+
+    if(this.props.loading) return <LoadingIndicater inverted={true} />;
     return (
       <Table celled>
         <Table.Header>
           <Table.Row>
-            <Table.HeaderCell>Header</Table.HeaderCell>
-            <Table.HeaderCell>Header</Table.HeaderCell>
-            <Table.HeaderCell>Header</Table.HeaderCell>
+            <Table.HeaderCell>Name</Table.HeaderCell>
+            <Table.HeaderCell>Email</Table.HeaderCell>
+            <Table.HeaderCell>Status</Table.HeaderCell>
           </Table.Row>
         </Table.Header>
 
         <Table.Body>
-          <Table.Row>
-            <Table.Cell>
-              <Label ribbon>First</Label>
-            </Table.Cell>
-            <Table.Cell>Cell</Table.Cell>
-            <Table.Cell>Cell</Table.Cell>
-          </Table.Row>
-          <Table.Row>
-            <Table.Cell>Cell</Table.Cell>
-            <Table.Cell>Cell</Table.Cell>
-            <Table.Cell>Cell</Table.Cell>
-          </Table.Row>
-          <Table.Row>
-            <Table.Cell>Cell</Table.Cell>
-            <Table.Cell>Cell</Table.Cell>
-            <Table.Cell>Cell</Table.Cell>
-          </Table.Row>
+          {this.props.guests.map((guest) => (
+            <Table.Row key={guest.id}>
+              <Table.Cell>{guest.name}</Table.Cell>
+              <Table.Cell>{guest.email}</Table.Cell>
+              <Table.Cell>
+                <Label ribbon='right' color='blue'>Pending</Label>
+              </Table.Cell>
+            </Table.Row>
+          ))}
         </Table.Body>
 
         <Table.Footer>
@@ -40,10 +54,7 @@ class GuestList extends Component {
                 <Menu.Item as='a' icon>
                   <Icon name='chevron left' />
                 </Menu.Item>
-                <Menu.Item as='a'>1</Menu.Item>
-                <Menu.Item as='a'>2</Menu.Item>
-                <Menu.Item as='a'>3</Menu.Item>
-                <Menu.Item as='a'>4</Menu.Item>
+                <PageList />
                 <Menu.Item as='a' icon>
                   <Icon name='chevron right' />
                 </Menu.Item>
@@ -56,4 +67,13 @@ class GuestList extends Component {
   }
 }
 
-export default GuestList;
+const mapState = state => ({
+  guests: state.guests,
+  loading: state.async.loading
+});
+
+const actions = {
+  fetchGuests
+};
+
+export default connect(mapState, actions)(GuestList);

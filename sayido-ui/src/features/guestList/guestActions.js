@@ -3,24 +3,15 @@ import { FETCH_GUESTS } from "./guestConsts";
 import { asyncActionStart, asyncActionFinish, asyncActionError } from "../async/asyncActions";
 import { getAllQuery } from "./guestQueries";
 
-const url = `http://localhost:3000/`;
+const url = `http://localhost:5000/api/guests`;
 
 export const fetchGuests = (page = 1) => {
   return async dispatch => {
     dispatch(asyncActionStart());
     try {
-      const res = await Axios({
-        url,
-        method: "POST",
-        data: {
-          query: getAllQuery({
-            page: 1,
-            perPage: 10,
-            sortField: 'name'
-          })
-        }
-      });
-      const guests = res.data.data.allGuests;
+      const res = await Axios.get(url);
+      const guests = res.data;
+      console.log(guests);
       dispatch({
         type: FETCH_GUESTS,
         payload: { guests }

@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import Joi from "joi";
+import Joi, { bool, boolean } from "joi";
 
 export const guestSchema = new mongoose.Schema({
   name: {
@@ -19,7 +19,14 @@ export const guestSchema = new mongoose.Schema({
     minlength: 5,
     maxlength: 50
   },
-  goingWith: []
+  goingWith: [],
+  invitationSent: {
+      type: Boolean,
+      default: false
+  },
+  rsvp: {
+      type: Boolean
+  }
 });
 
 export const validateGuest = guest => {

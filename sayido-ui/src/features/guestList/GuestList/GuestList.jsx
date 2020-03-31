@@ -31,17 +31,22 @@ class GuestList extends Component {
           <Table.Row>
             <Table.HeaderCell>Name</Table.HeaderCell>
             <Table.HeaderCell>Email</Table.HeaderCell>
-            <Table.HeaderCell>Status</Table.HeaderCell>
+            <Table.HeaderCell>Phone</Table.HeaderCell>
+            <Table.HeaderCell>Invitation Sent</Table.HeaderCell>
+            <Table.HeaderCell>RSVP</Table.HeaderCell>
           </Table.Row>
         </Table.Header>
 
         <Table.Body>
           {this.props.guests.map((guest) => (
-            <Table.Row key={guest.id}>
+            <Table.Row key={guest._id}>
               <Table.Cell>{guest.name}</Table.Cell>
               <Table.Cell>{guest.email}</Table.Cell>
+              <Table.Cell>{guest.phone}</Table.Cell>
+              <Table.Cell>{guest.invitationSent ? 'Yes' : 'No' }</Table.Cell>
               <Table.Cell>
-                <Label ribbon='right' color='blue'>Pending</Label>
+                {guest.rsvp && <Label ribbon='right' color='blue'>{guest.rsvp ? 'Yes' : 'No' }</Label>}
+                {!guest.rsvp && <Label ribbon='right' color='black'>Pending</Label>}
               </Table.Cell>
             </Table.Row>
           ))}
@@ -49,7 +54,7 @@ class GuestList extends Component {
 
         <Table.Footer>
           <Table.Row>
-            <Table.HeaderCell colSpan='3'>
+            <Table.HeaderCell colSpan='5'>
               <Menu floated='right' pagination>
                 <Menu.Item as='a' icon>
                   <Icon name='chevron left' />

@@ -14,6 +14,10 @@ class GuestList extends Component {
     this.setState({ currentPage: page });
   }
 
+  componentDidMount(){
+    this.props.fetchGuests(1);
+  }
+
   render() {
 
     const PageList = () => {

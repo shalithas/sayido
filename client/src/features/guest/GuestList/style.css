@@ -1,0 +1,51 @@
+span.rsvp {
+    padding: 5px 15px;
+    border-radius: 15px;
+    width: 90px;
+    display: block;
+    color: white;
+    text-align: center;
+}
+
+span.rsvp.yes {
+    background-color: rgb(5, 110, 5);
+}
+
+span.rsvp.pending {
+    background-color: rgba(128, 128, 128, 0.651);
+}
+
+span.rsvp.no {
+    background-color: rgba(192, 53, 53, 0.651);
+}
+
+td.rsvp, th.rsvp  {
+    width: 100px;
+}
+
+span.invitation {
+    padding: 5px 15px;
+    border-radius: 15px;
+    width: 60px;
+    display: block;
+    color: white;
+    text-align: center;
+}
+
+span.invitation.yes {
+    background-color: rgb(5, 110, 5);
+}
+
+span.invitation.no {
+    background-color: rgba(192, 53, 53, 0.651);
+}
+
+td.invitation, th.invitation  {
+    width: 100px;
+    text-align: center;
+}
+
+td.actions, th.actions {
+    width: 50px;
+    text-align: center;
+}

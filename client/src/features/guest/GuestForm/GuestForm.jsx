@@ -8,6 +8,7 @@ import { combineValidators, isRequired } from 'revalidate';
 import { createGuest } from '../guestActions';
 
 const accompanyingOptions = [
+  { key: 0, text: 0, value: 0 },
   { key: 1, text: 1, value: 1 },
   { key: 2, text: 2, value: 2 },
   { key: 3, text: 3, value: 3 },
@@ -84,8 +85,8 @@ class GuestForm extends Component {
               <Button
                 onClick={() => {
                   initialValues.id
-                    ? history.push(`/events/${initialValues.id}`)
-                    : history.push(`/events`);
+                    ? history.push(`/guests/${initialValues.id}`)
+                    : history.push(`/guests`);
                 }}
                 type='button'
               >
@@ -100,7 +101,10 @@ class GuestForm extends Component {
 }
 
 const mapState = (state, ownProps) => {
-  let guest = {};
+  let guest = {
+    adult: 0,
+    chidren: 0
+  };
 
   return {
     initialValues: guest

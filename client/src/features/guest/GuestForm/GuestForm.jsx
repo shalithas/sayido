@@ -39,7 +39,11 @@ class GuestForm extends Component {
       <Grid>
         <Grid.Column width={10}>
           <Segment>
-            <Form autoComplete='off' name='guestForm' onSubmit={handleSubmit(this.onFormSubmit)}>
+            <Form
+              autoComplete='off'
+              name='guestForm'
+              onSubmit={handleSubmit(this.onFormSubmit)}
+            >
               <Header color='teal' content='Guest Information' />
               <Field
                 name='name'

@@ -10,7 +10,6 @@ export const fetchGuests = (page = 1) => {
     try {
       const res = await Axios.get(url);
       const guests = res.data;
-      console.log(guests);
       dispatch({
         type: FETCH_GUESTS,
         payload: { guests }
@@ -29,8 +28,7 @@ export const createGuest = (guest) => {
   return async dispatch => {
     dispatch(asyncActionStart());
     try {
-      const res = await Axios.post(url, guest);
-      console.log(res);
+      await Axios.post(url, guest);
       dispatch({
         type: CREATE_GUEST,
         payload: { guest }

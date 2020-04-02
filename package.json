@@ -1,49 +1,23 @@
 {
   "name": "sayido",
   "version": "1.0.0",
-  "proxy": "http://localhost:5000",
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "client": "npm run start --prefix sayido-ui",
-    "server": "nodemon index.js",
-    "dev": "concurrently --kill-others-on-fail \"npm run server\" \"npm run client\"",
-    "start": "nodemon --exec babel-node -- ./server/app.js",
-    "build": "rm -rf dist && webpack --mode development"
+    "start": "concurrently \"cd client && npm start\" \"cd server && npm start\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/shalithas/sayido.git"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "dependencies": {
-    "body-parser": "^1.19.0",
-    "cors": "^2.8.5",
-    "express": "^4.17.1",
-    "express-async-errors": "^3.1.1",
-    "joi": "^14.3.1",
-    "lodash": "^4.17.15",
-    "mongoose": "^5.9.7",
-    "winston": "^3.2.1",
-    "winston-mongodb": "^5.0.1"
+  "bugs": {
+    "url": "https://github.com/shalithas/sayido/issues"
   },
-  "devDependencies": {
-    "@babel/cli": "^7.5.5",
-    "@babel/core": "^7.5.5",
-    "@babel/node": "^7.5.5",
-    "@babel/preset-env": "^7.5.5",
-    "@babel/register": "^7.8.3",
-    "babel-loader": "^8.0.6",
-    "babel-plugin-transform-runtime": "^6.23.0",
-    "babel-regenerator-runtime": "^6.5.0",
-    "chai": "^4.2.0",
-    "eslint": "^6.8.0",
-    "eslint-config-airbnb-base": "^14.0.0",
-    "eslint-plugin-import": "^2.20.0",
-    "mocha": "^7.0.1",
-    "nodemon": "^1.19.1",
-    "supertest": "^4.0.2",
-    "webpack": "^4.39.2",
-    "webpack-cli": "^3.3.7",
-    "webpack-node-externals": "^1.7.2"
+  "homepage": "https://github.com/shalithas/sayido#readme",
+  "dependencies": {
+    "concurrently": "^5.1.0"
   }
 }

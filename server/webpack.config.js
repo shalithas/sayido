@@ -3,7 +3,7 @@ import nodeExternals from 'webpack-node-externals';
 
 module.exports = {
     entry: {
-        server: ['babel-regenerator-runtime', './server/app.js'],
+        server: ['babel-regenerator-runtime', './app.js'],
     },
     output: {
         path: path.join(__dirname, 'dist'),

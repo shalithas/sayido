@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { Guest, validateGuest } from "../models/guest";
+import { Guest, validateGuest } from "./guest";
 import _ from "lodash";
 
 const router = Router();

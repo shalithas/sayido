@@ -1,4 +1,5 @@
 import mongoose from "mongoose"
+import logger from "../logger/logger";
 
 export default () => {
     mongoose.connect("mongodb://localhost/sayido", {
@@ -6,5 +7,5 @@ export default () => {
         useUnifiedTopology: true,
         useCreateIndex: true
       })
-      .then(() => console.log("Connected to DB"));
+      .then(() => logger.info('Connected to DB'));
 }

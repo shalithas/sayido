@@ -8,7 +8,7 @@ const navBarStyle = {
     left: 0,
     top:0,
     bottom: 0,
-    zIndex: 2500
+    zIndex: 100
 };
 
 const NavBar = () => {
@@ -16,7 +16,7 @@ const NavBar = () => {
     <Fragment>
       <Menu pointing secondary vertical style={navBarStyle}>
         <Menu.Item name='Dashboard' as={NavLink} to='/' exact />
-        <Menu.Item name='Guest List' as={NavLink} to='/guest-list' />
+        <Menu.Item name='Guest List' as={NavLink} to='/guests' exact />
         <Menu.Item name='friends' active={false} />
       </Menu>
     </Fragment>

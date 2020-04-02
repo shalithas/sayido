@@ -6,12 +6,10 @@ import App from "./app/layout/App";
 import * as serviceWorker from "./serviceWorker";
 import { configureStore } from "./app/store/configureStore";
 import { Provider } from "react-redux";
-import { fetchGuests } from "./features/guestList/guestActions";
 
 const rootEl = document.getElementById("root");
 
 const store = configureStore();
-store.dispatch(fetchGuests());
 
 let render = () => {
   ReactDOM.render(

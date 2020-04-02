@@ -3,16 +3,20 @@ import NavBar from "../../features/nav/NavBar/NavBar";
 import { Route } from "react-router-dom";
 import Dashboard from "../../features/dashboard/Dashboard";
 import "./App.css";
-import GuestListDashboard from "../../features/guestList/GuestListDashboard/GuestListDashboard";
+import GuestListDashboard from "../../features/guest/GuestListDashboard/GuestListDashboard";
+import GuestForm from "../../features/guest/GuestForm/GuestForm";
+import ModalManager from "../../features/models/ModalManager";
 
 export default class App extends Component {
   render() {
     return (
       <Fragment>
+        <ModalManager />
         <NavBar />
         <div className='content'>
           <Route path='/' exact component={Dashboard} />
-          <Route path='/guest-list' component={GuestListDashboard} />
+          <Route path='/guests' exact component={GuestListDashboard} />
+          <Route path='/guests/new' exact component={GuestForm} />
         </div>
       </Fragment>
     );

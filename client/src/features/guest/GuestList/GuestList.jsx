@@ -4,6 +4,7 @@ import { connect } from "react-redux";
 import { fetchGuests } from "../guestActions";
 import LoadingIndicater from "../../../app/layout/LoadingIndicater";
 import './style.css';
+import { openModal } from "../../models/modalActions";
 class GuestList extends Component {
   state = {
     pages: 10,
@@ -17,6 +18,10 @@ class GuestList extends Component {
 
   componentDidMount(){
     this.props.fetchGuests(1);
+  }
+
+  openEditModal = () => {
+    this.props.openModal('GuestModal');
   }
 
   render() {
@@ -59,7 +64,7 @@ class GuestList extends Component {
                 {!guest.rsvp && <span className='rsvp pending'>Pending</span>}
               </Table.Cell>
               <Table.Cell className='actions'>
-                <Button secondary icon='edit' />
+                <Button onClick={this.openEditModal} secondary icon='edit' />
               </Table.Cell>
             </Table.Row>
           ))}
@@ -91,7 +96,8 @@ const mapState = state => ({
 });
 
 const actions = {
-  fetchGuests
+  fetchGuests,
+  openModal
 };
 
 export default connect(mapState, actions)(GuestList);

@@ -8,7 +8,7 @@ const navBarStyle = {
     left: 0,
     top:0,
     bottom: 0,
-    zIndex: 2500
+    zIndex: 100
 };
 
 const NavBar = () => {

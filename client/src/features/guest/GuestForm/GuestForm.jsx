@@ -5,7 +5,7 @@ import TextInput from '../../../app/common/form/TextInput';
 import { connect } from 'react-redux';
 import SelectInput from '../../../app/common/form/SelectInput';
 import { combineValidators, isRequired } from 'revalidate';
-import { createGuest } from '../guestActions';
+import { createGuest, fetchGuest, unselectGuest } from '../guestActions';
 
 const accompanyingOptions = [
   { key: 0, text: 0, value: 0 },
@@ -20,22 +20,27 @@ const validate = combineValidators({
 });
 
 class GuestForm extends Component {
+  componentWillMount() {
+    const { match, fetchGuest, unselectGuest } = this.props;
+    const guestId = match.params.guestId;
+    if (guestId) {
+      fetchGuest(guestId);
+    } else {
+      unselectGuest();
+    }
+  }
+
   onFormSubmit = formData => {
     const guest = { ...formData };
+    const { unselectGuest, history, createGuest } = this.props;
 
-    this.props.createGuest(guest);
-    this.props.history.push(`/guests`);
+    createGuest(guest);
+    unselectGuest();
+    history.push(`/guests`);
   };
 
   render() {
-    const {
-      initialValues,
-      history,
-      invalid,
-      submitting,
-      pristine,
-      handleSubmit
-    } = this.props;
+    const { history, invalid, submitting, pristine, handleSubmit } = this.props;
     return (
       <Grid>
         <Grid.Column width={10}>
@@ -61,7 +66,7 @@ class GuestForm extends Component {
                 component={TextInput}
                 placeholder='Email Address'
               />
-              <p>Accompanying</p>
+              <Header sub content='Accompanying' />
               <Field
                 name='adults'
                 component={SelectInput}
@@ -69,9 +74,9 @@ class GuestForm extends Component {
                 options={accompanyingOptions}
               />
               <Field
-                name='chidren'
+                name='children'
                 component={SelectInput}
-                placeholder='Chidren'
+                placeholder='Children'
                 options={accompanyingOptions}
               />
 
@@ -84,9 +89,8 @@ class GuestForm extends Component {
               </Button>
               <Button
                 onClick={() => {
-                  initialValues.id
-                    ? history.push(`/guests/${initialValues.id}`)
-                    : history.push(`/guests`);
+                  this.props.unselectGuest();
+                  history.push(`/guests`);
                 }}
                 type='button'
               >
@@ -100,22 +104,35 @@ class GuestForm extends Component {
   }
 }
 
-const mapState = (state, ownProps) => {
-  let guest = {
-    adult: 0,
-    chidren: 0
-  };
+const mapState = (state) => {
+  let guest = {};
+
+  if (state.guests.selectedGuest) {
+    guest = state.guests.selectedGuest;
+  } else {
+    guest = {
+      adults: 0,
+      children: 0
+    };
+  }
 
   return {
-    initialValues: guest
+    initialValues: guest,
+    selectedGuest: state.guests.selectedGuest
   };
 };
 
 const actions = {
-  createGuest
+  createGuest,
+  fetchGuest,
+  unselectGuest
 };
 
 export default connect(
   mapState,
   actions
-)(reduxForm({ form: 'guestForm', validate })(GuestForm));
+)(
+  reduxForm({ form: 'guestForm', validate, enableReinitialize: true })(
+    GuestForm
+  )
+);

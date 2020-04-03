@@ -17,6 +17,7 @@ export default class App extends Component {
           <Route path='/' exact component={Dashboard} />
           <Route path='/guests' exact component={GuestListDashboard} />
           <Route path='/guests/new' exact component={GuestForm} />
+          <Route path='/guests/:guestId/edit' exact component={GuestForm} />
         </div>
       </Fragment>
     );

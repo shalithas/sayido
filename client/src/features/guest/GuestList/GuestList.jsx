@@ -6,6 +6,7 @@ import LoadingIndicater from '../../../app/layout/LoadingIndicater';
 import './style.css';
 import { openModal } from '../../models/modalActions';
 import { withRouter } from 'react-router-dom';
+import { toastr } from 'react-redux-toastr';
 class GuestList extends Component {
   state = {
     pages: 10,
@@ -75,8 +76,12 @@ class GuestList extends Component {
         ids.push(guest._id);
       }
     });
-    console.log(ids);
-    deleteGuests(ids);
+    if(ids.length > 0){
+      const toastrConfirmOptions = {
+        onOk: () => deleteGuests(ids)
+      };
+      toastr.confirm('Are you sure about that!', toastrConfirmOptions);
+    }
   }
 
   render() {

@@ -13,6 +13,7 @@ import {
   asyncActionFinish,
   asyncActionError
 } from '../async/asyncActions';
+import { toastr } from 'react-redux-toastr';
 
 const url = `http://localhost:5000/api/guests`;
 
@@ -32,6 +33,7 @@ export const fetchGuests = (page = 1) => {
     } catch (error) {
       console.log(error);
       dispatch(asyncActionError());
+      toastr.error('Opps', 'Something went wrong');
     }
   };
 };
@@ -52,6 +54,7 @@ export const fetchGuest = id => {
     } catch (error) {
       console.log(error);
       dispatch(asyncActionError());
+      toastr.error('Opps', 'Something went wrong');
     }
   };
 };
@@ -67,10 +70,12 @@ export const createGuest = guest => {
       });
 
       dispatch(asyncActionFinish());
+      toastr.success('Success!', 'Guests added');
       dispatch(fetchGuests());
     } catch (error) {
       console.log(error);
       dispatch(asyncActionError());
+      toastr.error('Opps', 'Something went wrong');
     }
   };
 };
@@ -85,10 +90,12 @@ export const updateGuest = (id, guest) => {
         payload: { guest }
       });
       dispatch(asyncActionFinish());
+      toastr.success('Success!', 'Guests updated');
       dispatch(fetchGuests());
     } catch (error) {
       console.log(error);
       dispatch(asyncActionError());
+      toastr.error('Opps', 'Something went wrong');
     }
   };
 };
@@ -107,10 +114,12 @@ export const deleteGuests = (ids) => {
         type: DELETE_GUEST
       });
       dispatch(asyncActionFinish());
+      toastr.success('Success!', 'Guest/s deleted');
       dispatch(fetchGuests());
     } catch (error) {
       console.log(error);
       dispatch(asyncActionError());
+      toastr.error('Opps', 'Something went wrong');
     }
   };
 };
@@ -137,6 +146,7 @@ export const fetchStats = id => {
     } catch (error) {
       console.log(error);
       dispatch(asyncActionError());
+      toastr.error('Opps', 'Something went wrong');
     }
   };
 };

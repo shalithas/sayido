@@ -61,7 +61,7 @@ router.delete('/', async (req, res) => {
   console.log(ids);
 
   const response = await Guest.deleteMany({ _id: ids });
-  if (!response.deletedCount < 1) return res.status(404).send('Invalid IDs');
+  if (response.deletedCount < 1) return res.status(404).send('Invalid IDs');
 
   res.send(response);
 });

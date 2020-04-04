@@ -17,7 +17,9 @@ const SelectInput = ({
         placeholder={placeholder}
         type={type}
         value={input.value || null}
-        onChange={(e, data) => input.onChange(data.value)}
+        onChange={(e, data) => {
+          input.onChange(data.value, e);
+        }}
         options={options}
         multiple={multiple}
       />

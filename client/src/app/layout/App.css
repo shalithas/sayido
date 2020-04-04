@@ -1,7 +1,7 @@
 body {
-  background-color: beige;
+  background-color: #fff;
 }
 
-.content {
+div.content.sayido {
   padding: 50px 50px 0 230px;
 }

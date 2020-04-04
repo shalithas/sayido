@@ -1,5 +1,6 @@
 import { createReducer } from "../../app/util/reducerUtils";
-import { FETCH_GUESTS, FETCH_GUEST, UNSELECT_GUEST, FETCH_STATS } from "./guestConsts";
+import { FETCH_GUESTS, FETCH_GUEST, UNSELECT_GUEST, FETCH_STATS, DELETE_GUEST } from "./guestConsts";
+import { deleteGuests } from "./guestActions";
 
 const initialState = {
     list: [],
@@ -27,5 +28,6 @@ export default createReducer(initialState, {
     [FETCH_GUESTS]: fetchGuests,
     [FETCH_GUEST]: fetchGuest,
     [UNSELECT_GUEST]: unselectGuest,
-    [FETCH_STATS]: fetchGuestStats
+    [FETCH_STATS]: fetchGuestStats,
+    [DELETE_GUEST]: deleteGuests
 });

@@ -5,7 +5,8 @@ import {
   FETCH_GUEST,
   UNSELECT_GUEST,
   FETCH_STATS,
-  UPDATE_GUEST
+  UPDATE_GUEST,
+  DELETE_GUEST
 } from './guestConsts';
 import {
   asyncActionStart,
@@ -82,6 +83,28 @@ export const updateGuest = (id, guest) => {
       dispatch({
         type: UPDATE_GUEST,
         payload: { guest }
+      });
+      dispatch(asyncActionFinish());
+      dispatch(fetchGuests());
+    } catch (error) {
+      console.log(error);
+      dispatch(asyncActionError());
+    }
+  };
+};
+
+export const deleteGuests = (ids) => {
+  return async dispatch => {
+    console.log(ids);
+    dispatch(asyncActionStart());
+    try {
+      await Axios.delete(url, {
+        data: {
+          ids
+        }
+      });
+      dispatch({
+        type: DELETE_GUEST
       });
       dispatch(asyncActionFinish());
       dispatch(fetchGuests());

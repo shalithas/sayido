@@ -28,7 +28,7 @@ router.post('/', async (req, res) => {
   if (error) return res.status(400).send(error.details[0].message);
 
   const guest = new Guest(
-    _.pick(req.body, 'name', 'email', 'phone', 'goingWith')
+    _.pick(req.body, 'name', 'email', 'phone', 'adults', 'children')
   );
 
   const result = await guest.save();
@@ -48,11 +48,22 @@ router.put('/:id', async (req, res) => {
   guest.name = body.name;
   guest.email = body.email;
   guest.phone = body.phone;
-  guest.goingWith = body.goingWith;
+  guest.adults = body.adults;
+  guest.children = body.children;
 
   const result = await guest.save();
 
   res.send(result);
+});
+
+router.delete('/', async (req, res) => {
+  const ids = req.body.ids;
+  console.log(ids);
+
+  const response = await Guest.deleteMany({ _id: ids });
+  if (!response.deletedCount < 1) return res.status(404).send('Invalid IDs');
+
+  res.send(response);
 });
 
 export default router;

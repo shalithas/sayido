@@ -1,18 +1,25 @@
-import React from "react";
-import { BrowserRouter } from "react-router-dom";
-import ReactDOM from "react-dom";
-import "./index.css";
-import App from "./app/layout/App";
-import * as serviceWorker from "./serviceWorker";
-import { store } from "./app/store/store";
-import { Provider } from "react-redux";
+import React from 'react';
+import { BrowserRouter } from 'react-router-dom';
+import ReactDOM from 'react-dom';
+import 'react-redux-toastr/lib/css/react-redux-toastr.min.css';
+import './index.css';
+import App from './app/layout/App';
+import * as serviceWorker from './serviceWorker';
+import { store } from './app/store/store';
+import { Provider } from 'react-redux';
+import ReduxToastr from 'react-redux-toastr';
 
-const rootEl = document.getElementById("root");
+const rootEl = document.getElementById('root');
 
 let render = () => {
   ReactDOM.render(
     <Provider store={store}>
       <BrowserRouter>
+        <ReduxToastr
+          position='bottom-right'
+          transitionIn='fadeIn'
+          transitionOut='fadeOut'
+        />
         <App />
       </BrowserRouter>
     </Provider>,
@@ -21,7 +28,7 @@ let render = () => {
 };
 
 if (module.hot) {
-  module.hot.accept("./app/layout/App", () => {
+  module.hot.accept('./app/layout/App', () => {
     setTimeout(render);
   });
 }

@@ -34,6 +34,29 @@ export const guestSchema = new mongoose.Schema({
   }
 });
 
+guestSchema.statics.findStats = async () => {
+  const guests = await Guest.find();
+  let count = 0,
+    rsvpCount = 0;
+  guests.forEach(guest => {
+    let familyCount = 1;
+    if (guest.adults) {
+      familyCount += guest.adults;
+    }
+    if (guest.children) {
+      familyCount += guest.children;
+    }
+    count += familyCount;
+    if (guest.rsvp) {
+      rsvpCount += familyCount;
+    }
+  });
+  return {
+    count,
+    rsvpCount
+  };
+};
+
 export const validateGuest = guest => {
   const schema = {
     name: Joi.string()

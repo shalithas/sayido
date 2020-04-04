@@ -1,9 +1,10 @@
 import { createReducer } from "../../app/util/reducerUtils";
-import { FETCH_GUESTS, FETCH_GUEST, UNSELECT_GUEST } from "./guestConsts";
+import { FETCH_GUESTS, FETCH_GUEST, UNSELECT_GUEST, FETCH_STATS } from "./guestConsts";
 
 const initialState = {
     list: [],
-    selectedGuest: null
+    selectedGuest: null,
+    stats: null
 };
 
 const fetchGuests = (state, payload) => {
@@ -18,8 +19,13 @@ const unselectGuest = (state) => {
     return { ...state, selectedGuest: null }
 }
 
+const fetchGuestStats = (state, payload) => {
+    return { ...state, stats: payload.stats }
+}
+
 export default createReducer(initialState, {
     [FETCH_GUESTS]: fetchGuests,
     [FETCH_GUEST]: fetchGuest,
-    [UNSELECT_GUEST]: unselectGuest
+    [UNSELECT_GUEST]: unselectGuest,
+    [FETCH_STATS]: fetchGuestStats
 });

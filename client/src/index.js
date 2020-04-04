@@ -4,12 +4,10 @@ import ReactDOM from "react-dom";
 import "./index.css";
 import App from "./app/layout/App";
 import * as serviceWorker from "./serviceWorker";
-import { configureStore } from "./app/store/configureStore";
+import { store } from "./app/store/store";
 import { Provider } from "react-redux";
 
 const rootEl = document.getElementById("root");
-
-const store = configureStore();
 
 let render = () => {
   ReactDOM.render(

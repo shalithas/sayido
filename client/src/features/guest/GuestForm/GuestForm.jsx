@@ -1,11 +1,26 @@
 import React, { Component } from 'react';
-import { Grid, Segment, Header, Button, Form } from 'semantic-ui-react';
-import { reduxForm, Field } from 'redux-form';
+import {
+  Grid,
+  Segment,
+  Header,
+  Button,
+  Form,
+  Message
+} from 'semantic-ui-react';
+import { reduxForm, Field, formValueSelector } from 'redux-form';
 import TextInput from '../../../app/common/form/TextInput';
 import { connect } from 'react-redux';
 import SelectInput from '../../../app/common/form/SelectInput';
 import { combineValidators, isRequired } from 'revalidate';
-import { createGuest } from '../guestActions';
+import _ from 'lodash';
+import {
+  createGuest,
+  fetchGuest,
+  unselectGuest,
+  fetchStats,
+  updateGuest
+} from '../guestActions';
+import { store } from '../../../app/store/store';
 
 const accompanyingOptions = [
   { key: 0, text: 0, value: 0 },
@@ -20,21 +35,69 @@ const validate = combineValidators({
 });
 
 class GuestForm extends Component {
-  onFormSubmit = formData => {
-    const guest = { ...formData };
+  state = {
+    count: 0
+  };
 
-    this.props.createGuest(guest);
-    this.props.history.push(`/guests`);
+  componentWillMount() {
+    const { match, fetchGuest, unselectGuest, fetchStats } = this.props;
+    const guestId = match.params.guestId;
+
+    fetchStats();
+    if (guestId) {
+      fetchGuest(guestId);
+    } else {
+      unselectGuest();
+    }
+  }
+
+  componentDidMount() {
+    if (this.props.stats) {
+      this.setState({
+        count: this.props.stats.count + 1
+      });
+    }
+  }
+
+  onFormSubmit = formData => {
+    const guest = { ..._.pick(formData, 'name', 'phone', 'email', 'adults', 'children') };
+    const { unselectGuest, history, createGuest, updateGuest } = this.props;
+
+    if(this.props.initialValues._id){
+      updateGuest(this.props.initialValues._id, guest);
+    } else {
+      createGuest(guest);
+    }
+    unselectGuest();
+    history.push(`/guests`);
+  };
+
+  onAccomanyingChange = (evt, value) => {
+    const selecter = formValueSelector('guestForm');
+    const state = store.getState();
+    this.setState({
+      count: this.updateCount(value, selecter(state, 'children'))
+    });
+
+    return evt;
+  };
+
+  updateCount = (adults = 0, children = 0) => {
+    let count = adults + children + 1;
+    console.log(count);
+    count += this.props.stats.count ? this.props.stats.count : 0;
+    console.log(this.props.stats.count);
+    return count;
   };
 
   render() {
     const {
-      initialValues,
       history,
       invalid,
       submitting,
       pristine,
-      handleSubmit
+      handleSubmit,
+      stats
     } = this.props;
     return (
       <Grid>
@@ -61,18 +124,21 @@ class GuestForm extends Component {
                 component={TextInput}
                 placeholder='Email Address'
               />
-              <p>Accompanying</p>
+              <Header sub content='Accompanying' />
               <Field
                 name='adults'
                 component={SelectInput}
                 placeholder='Adults'
+                value='1'
                 options={accompanyingOptions}
+                onChange={this.onAccomanyingChange}
               />
               <Field
-                name='chidren'
+                name='children'
                 component={SelectInput}
-                placeholder='Chidren'
+                placeholder='Children'
                 options={accompanyingOptions}
+                onChange={this.onAccomanyingChange}
               />
 
               <Button
@@ -84,9 +150,8 @@ class GuestForm extends Component {
               </Button>
               <Button
                 onClick={() => {
-                  initialValues.id
-                    ? history.push(`/guests/${initialValues.id}`)
-                    : history.push(`/guests`);
+                  this.props.unselectGuest();
+                  history.push(`/guests`);
                 }}
                 type='button'
               >
@@ -95,27 +160,65 @@ class GuestForm extends Component {
             </Form>
           </Segment>
         </Grid.Column>
+
+        <Grid.Column width={6}>
+          <Segment>
+            <Header as='h2' icon='info' content='Guest Count' />
+            <Message
+              icon='chevron circle right'
+              content='Your guests capacity is: 200'
+            />
+            <Message
+              icon='chevron circle right'
+              content={`Your invited guest count is: ${stats && stats.count}`}
+            />
+            <Message
+              icon='chevron circle right'
+              content={`Your RSVP guest count is: ${stats && stats.rsvpCount}`}
+            />
+            <Message
+              icon='chevron circle right'
+              header={`After save your invited guest count is: ${this.state.count}`}
+            />
+          </Segment>
+        </Grid.Column>
       </Grid>
     );
   }
 }
 
-const mapState = (state, ownProps) => {
-  let guest = {
-    adult: 0,
-    chidren: 0
-  };
+const mapState = state => {
+  let guest = {};
+
+  if (state.guests.selectedGuest) {
+    guest = state.guests.selectedGuest;
+  } else {
+    guest = {
+      adults: 0,
+      children: 0
+    };
+  }
 
   return {
-    initialValues: guest
+    initialValues: guest,
+    selectedGuest: state.guests.selectedGuest,
+    stats: state.guests.stats
   };
 };
 
 const actions = {
-  createGuest
+  createGuest,
+  fetchGuest,
+  unselectGuest,
+  fetchStats,
+  updateGuest
 };
 
 export default connect(
   mapState,
   actions
-)(reduxForm({ form: 'guestForm', validate })(GuestForm));
+)(
+  reduxForm({ form: 'guestForm', validate, enableReinitialize: true })(
+    GuestForm
+  )
+);

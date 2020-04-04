@@ -13,10 +13,11 @@ export default class App extends Component {
       <Fragment>
         <ModalManager />
         <NavBar />
-        <div className='content'>
+        <div className='sayido content'>
           <Route path='/' exact component={Dashboard} />
           <Route path='/guests' exact component={GuestListDashboard} />
           <Route path='/guests/new' exact component={GuestForm} />
+          <Route path='/guests/:guestId/edit' exact component={GuestForm} />
         </div>
       </Fragment>
     );

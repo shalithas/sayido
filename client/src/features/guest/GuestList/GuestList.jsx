@@ -1,10 +1,11 @@
 import React, { Component } from "react";
-import { Table, Label, Menu, Icon, Button, Checkbox } from "semantic-ui-react";
+import { Table, Menu, Icon, Button, Checkbox } from "semantic-ui-react";
 import { connect } from "react-redux";
 import { fetchGuests } from "../guestActions";
 import LoadingIndicater from "../../../app/layout/LoadingIndicater";
 import './style.css';
 import { openModal } from "../../models/modalActions";
+import { withRouter } from "react-router-dom";
 class GuestList extends Component {
   state = {
     pages: 10,
@@ -20,8 +21,8 @@ class GuestList extends Component {
     this.props.fetchGuests(1);
   }
 
-  openEditModal = () => {
-    this.props.openModal('GuestModal');
+  openEditForm = (id) => {
+    this.props.history.push(`/guests/${id}/edit`);
   }
 
   render() {
@@ -64,7 +65,7 @@ class GuestList extends Component {
                 {!guest.rsvp && <span className='rsvp pending'>Pending</span>}
               </Table.Cell>
               <Table.Cell className='actions'>
-                <Button onClick={this.openEditModal} secondary icon='edit' />
+                <Button onClick={() => this.openEditForm(guest._id)} secondary icon='edit' />
               </Table.Cell>
             </Table.Row>
           ))}
@@ -90,8 +91,8 @@ class GuestList extends Component {
   }
 }
 
-const mapState = state => ({
-  guests: state.guests,
+const mapState = (state) => ({
+  guests: state.guests.list,
   loading: state.async.loading
 });
 
@@ -100,4 +101,4 @@ const actions = {
   openModal
 };
 
-export default connect(mapState, actions)(GuestList);
+export default connect(mapState, actions)(withRouter(GuestList));

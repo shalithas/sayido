@@ -1,6 +1,17 @@
-import Axios from "axios";
-import { FETCH_GUESTS, CREATE_GUEST, FETCH_GUEST, UNSELECT_GUEST, FETCH_STATS } from "./guestConsts";
-import { asyncActionStart, asyncActionFinish, asyncActionError } from "../async/asyncActions";
+import Axios from 'axios';
+import {
+  FETCH_GUESTS,
+  CREATE_GUEST,
+  FETCH_GUEST,
+  UNSELECT_GUEST,
+  FETCH_STATS,
+  UPDATE_GUEST
+} from './guestConsts';
+import {
+  asyncActionStart,
+  asyncActionFinish,
+  asyncActionError
+} from '../async/asyncActions';
 
 const url = `http://localhost:5000/api/guests`;
 
@@ -24,7 +35,7 @@ export const fetchGuests = (page = 1) => {
   };
 };
 
-export const fetchGuest = (id) => {
+export const fetchGuest = id => {
   return async dispatch => {
     dispatch(asyncActionStart());
     try {
@@ -44,7 +55,7 @@ export const fetchGuest = (id) => {
   };
 };
 
-export const createGuest = (guest) => {
+export const createGuest = guest => {
   return async dispatch => {
     dispatch(asyncActionStart());
     try {
@@ -53,9 +64,27 @@ export const createGuest = (guest) => {
         type: CREATE_GUEST,
         payload: { guest }
       });
-      setTimeout(() => {
-        dispatch(asyncActionFinish());
-      }, 500);
+
+      dispatch(asyncActionFinish());
+      dispatch(fetchGuests());
+    } catch (error) {
+      console.log(error);
+      dispatch(asyncActionError());
+    }
+  };
+};
+
+export const updateGuest = (id, guest) => {
+  return async dispatch => {
+    dispatch(asyncActionStart());
+    try {
+      await Axios.put(`${url}/${id}`, guest);
+      dispatch({
+        type: UPDATE_GUEST,
+        payload: { guest }
+      });
+      dispatch(asyncActionFinish());
+      dispatch(fetchGuests());
     } catch (error) {
       console.log(error);
       dispatch(asyncActionError());
@@ -66,10 +95,10 @@ export const createGuest = (guest) => {
 export const unselectGuest = () => {
   return {
     type: UNSELECT_GUEST
-  }
-}
+  };
+};
 
-export const fetchStats = (id) => {
+export const fetchStats = id => {
   return async dispatch => {
     dispatch(asyncActionStart());
     try {

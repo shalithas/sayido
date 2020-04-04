@@ -17,7 +17,8 @@ import {
   createGuest,
   fetchGuest,
   unselectGuest,
-  fetchStats
+  fetchStats,
+  updateGuest
 } from '../guestActions';
 import { store } from '../../../app/store/store';
 
@@ -59,10 +60,14 @@ class GuestForm extends Component {
   }
 
   onFormSubmit = formData => {
-    const guest = { ...formData };
-    const { unselectGuest, history, createGuest } = this.props;
+    const guest = { ..._.pick(formData, 'name', 'phone', 'email', 'adults', 'children') };
+    const { unselectGuest, history, createGuest, updateGuest } = this.props;
 
-    createGuest(_.pick(guest, 'name', 'phone', 'email', 'adults', 'children'));
+    if(this.props.initialValues._id){
+      updateGuest(this.props.initialValues._id, guest);
+    } else {
+      createGuest(guest);
+    }
     unselectGuest();
     history.push(`/guests`);
   };
@@ -205,7 +210,8 @@ const actions = {
   createGuest,
   fetchGuest,
   unselectGuest,
-  fetchStats
+  fetchStats,
+  updateGuest
 };
 
 export default connect(

@@ -102,7 +102,6 @@ export const updateGuest = (id, guest) => {
 
 export const deleteGuests = (ids) => {
   return async dispatch => {
-    console.log(ids);
     dispatch(asyncActionStart());
     try {
       await Axios.delete(url, {

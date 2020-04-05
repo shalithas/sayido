@@ -10,8 +10,7 @@ export const guestSchema = new mongoose.Schema({
     trim: true
   },
   email: {
-    type: String,
-    required: false
+    type: String
   },
   phone: {
     type: String,
@@ -63,7 +62,7 @@ export const validateGuest = guest => {
       .min(3)
       .max(100)
       .required(),
-    email: Joi.string().required(),
+    email: Joi.string(),
     phone: Joi.string()
       .min(5)
       .max(50),

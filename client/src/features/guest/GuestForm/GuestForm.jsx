@@ -11,7 +11,14 @@ import { reduxForm, Field, formValueSelector } from 'redux-form';
 import TextInput from '../../../app/common/form/TextInput';
 import { connect } from 'react-redux';
 import SelectInput from '../../../app/common/form/SelectInput';
-import { combineValidators, isRequired } from 'revalidate';
+import {
+  combineValidators,
+  isRequired,
+  matchesPattern,
+  createValidator,
+  hasLengthBetween,
+  composeValidators
+} from 'revalidate';
 import _ from 'lodash';
 import {
   createGuest,
@@ -30,8 +37,22 @@ const accompanyingOptions = [
   { key: 4, text: 4, value: 4 }
 ];
 
+const regex = {
+  email: /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
+  phone: /^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/im
+}
+
 const validate = combineValidators({
-  name: isRequired({ message: 'Guest name is required' })
+  name: composeValidators(
+    isRequired({ message: 'Guest name is empty' }),
+    hasLengthBetween(3, 100)
+  )('Guest name'),
+  email: matchesPattern(regex.email)({
+    message: 'Guest email is invalid'
+  }),
+  phone: matchesPattern(regex.phone)({
+    message: 'Guest phone is invalid'
+  })
 });
 
 class GuestForm extends Component {
@@ -60,10 +81,12 @@ class GuestForm extends Component {
   }
 
   onFormSubmit = formData => {
-    const guest = { ..._.pick(formData, 'name', 'phone', 'email', 'adults', 'children') };
+    const guest = {
+      ..._.pick(formData, 'name', 'phone', 'email', 'adults', 'children')
+    };
     const { unselectGuest, history, createGuest, updateGuest } = this.props;
 
-    if(this.props.initialValues._id){
+    if (this.props.initialValues._id) {
       updateGuest(this.props.initialValues._id, guest);
     } else {
       createGuest(guest);

@@ -6,6 +6,7 @@ import "./App.css";
 import GuestListDashboard from "../../features/guest/GuestListDashboard/GuestListDashboard";
 import GuestForm from "../../features/guest/GuestForm/GuestForm";
 import ModalManager from "../../features/models/ModalManager";
+import PaymentDashboard from "../../features/payment/PaymentDashboard/PaymentDashboard";
 
 export default class App extends Component {
   render() {
@@ -18,6 +19,7 @@ export default class App extends Component {
           <Route path='/guests' exact component={GuestListDashboard} />
           <Route path='/guests/new' exact component={GuestForm} />
           <Route path='/guests/:guestId/edit' exact component={GuestForm} />
+          <Route path='/payments' exact component={PaymentDashboard} />
         </div>
       </Fragment>
     );

@@ -20,7 +20,7 @@ const NavBar = () => {
       <Menu pointing secondary vertical style={navBarStyle}>
         <Menu.Item name='Dashboard' as={NavLink} to='/' exact />
         <Menu.Item name='Guest List' as={NavLink} to='/guests' exact />
-        <Menu.Item name='Payments' active={false} />
+        <Menu.Item name='Payments' as={NavLink} to='/payments' />
       </Menu>
     </Fragment>
   );

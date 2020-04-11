@@ -14,8 +14,10 @@ import {
   asyncActionError
 } from '../async/asyncActions';
 import { toastr } from 'react-redux-toastr';
+import { getEnvVar } from '../../app/util/envUtils';
 
-const url = `http://localhost:5000/api/guests`;
+const url = `${getEnvVar('API_URL')}guests`;
+console.log(url);
 
 export const fetchGuests = (page = 1) => {
   return async dispatch => {

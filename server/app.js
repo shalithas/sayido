@@ -4,12 +4,15 @@ import routes from './startup/routes';
 import cors from 'cors';
 import logger from './logger/logger';
 import exceptions from './startup/exceptions';
+import dotenv from 'dotenv';
+import envVars from './startup/envVars';
 
 const app = express();
 
 app.use(cors());
 db();
 routes(app);
+envVars(dotenv);
 
 exceptions(app);
 

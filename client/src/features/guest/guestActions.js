@@ -16,8 +16,7 @@ import {
 import { toastr } from 'react-redux-toastr';
 import { getEnvVar } from '../../app/util/envUtils';
 
-const url = `${getEnvVar('API_URL')}guests`;
-console.log(url);
+const url = `${getEnvVar('API_URL')}/guests`;
 
 export const fetchGuests = (page = 1) => {
   return async dispatch => {

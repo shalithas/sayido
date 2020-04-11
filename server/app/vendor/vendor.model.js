@@ -1,4 +1,4 @@
-import { Schema } from "mongoose";
+import { Schema, model } from "mongoose";
 
 export const vendorSchema = new Schema({
     name: {
@@ -12,3 +12,5 @@ export const vendorSchema = new Schema({
         type: String
     }
 });
+
+export const Vendor = model('Vendor', vendorSchema);

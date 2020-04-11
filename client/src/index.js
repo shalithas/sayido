@@ -8,6 +8,8 @@ import * as serviceWorker from './serviceWorker';
 import { store } from './app/store/store';
 import { Provider } from 'react-redux';
 import ReduxToastr from 'react-redux-toastr';
+import Axios from 'axios';
+import { getEnvVar } from './app/util/envUtils';
 
 const rootEl = document.getElementById('root');
 
@@ -31,6 +33,13 @@ if (module.hot) {
   module.hot.accept('./app/layout/App', () => {
     setTimeout(render);
   });
+}
+
+// TODO: remove after login implementation 
+const token = getEnvVar('TOKEN');
+
+Axios.defaults.headers.common = {
+  'x-auth-token': token
 }
 
 render();

@@ -11,7 +11,6 @@ export default function(req, res, next) {
 
   try {
     const decoded = verify(token, JWT_KEY);
-    logger.info(decoded);
     req.user = decoded;
     next();
   } catch (ex) {

@@ -3,8 +3,10 @@ import { Grid, Icon, Button } from 'semantic-ui-react';
 import PaymentList from '../PaymentList/PaymentList';
 import { Link } from 'react-router-dom';
 import PaymentStats from '../PaymentStats/PaymentStats';
+import { openModal } from '../../models/modalActions';
+import { connect } from 'react-redux';
 
-const PaymentDashboard = () => {
+const PaymentDashboard = ({ openModal }) => {
   return (
     <Fragment>
       <Grid>
@@ -13,7 +15,7 @@ const PaymentDashboard = () => {
             <h1>Payments</h1>
           </Grid.Column>
           <Grid.Column width={6}>
-            <Button primary floated='right' as={Link} to='/guests/new'>
+            <Button primary floated='right' onClick={ () => openModal('PaymentFormModal') }>
               <Icon name='plus' /> Add payment
             </Button>
           </Grid.Column>
@@ -33,4 +35,8 @@ const PaymentDashboard = () => {
   );
 };
 
-export default PaymentDashboard;
+const actions = {
+  openModal
+};
+
+export default connect(null, actions)(PaymentDashboard);

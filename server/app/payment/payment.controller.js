@@ -15,6 +15,12 @@ router.get('/', auth, async (req, res) => {
   res.send(payments);
 });
 
+router.get('/stats', auth, async (req, res) => {
+  const stats = await Payment.findStats(req.user._id);
+
+  res.send(stats);
+});
+
 router.post('/', auth, async (req, res) => {
   const { error } = validate(req.body);
   if (error) return res.status(400).send(error.details[0].message);

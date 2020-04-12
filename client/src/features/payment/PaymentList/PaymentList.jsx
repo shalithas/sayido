@@ -1,5 +1,5 @@
 import React, { Component, Fragment } from 'react';
-import { fetchPayments } from '../paymentActions';
+import { fetchPayments, fetchPaymentStats } from '../paymentActions';
 import { connect } from 'react-redux';
 import LoadingIndicater from '../../../app/layout/LoadingIndicater';
 import '@fortawesome/fontawesome-free/js/all';
@@ -8,6 +8,7 @@ import { Button, Item, Icon } from 'semantic-ui-react';
 class PaymentList extends Component {
   componentWillMount() {
     this.props.fetchPayments();
+    this.props.fetchPaymentStats();
   }
 
   render() {
@@ -56,6 +57,7 @@ const mapState = (state, ownProps) => {
 
 const actions = {
   fetchPayments,
+  fetchPaymentStats,
 };
 
 export default connect(mapState, actions)(PaymentList);

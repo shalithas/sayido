@@ -4,8 +4,19 @@ import { connect } from 'react-redux';
 import LoadingIndicater from '../../../app/layout/LoadingIndicater';
 import '@fortawesome/fontawesome-free/js/all';
 import { withStyles } from '@material-ui/core/styles';
-import { List, ListItem, ListItemIcon, ListItemText, ListItemSecondaryAction, Checkbox, Button, Icon } from '@material-ui/core';
+import {
+  List,
+  ListItem,
+  ListItemText,
+  ListItemSecondaryAction,
+  Button,
+  Icon,
+  ListItemAvatar,
+  Avatar,
+} from '@material-ui/core';
 import ActionMenu from '../../../app/common/ActionMenu';
+import { deepOrange, pink, green } from '@material-ui/core/colors';
+import DehazeIcon from '@material-ui/icons/Dehaze';
 
 const useStyles = (theme) => ({
   root: {
@@ -16,17 +27,35 @@ const useStyles = (theme) => ({
     display: 'inline',
   },
   icon: {
-    minWidth: '90px'
-  }
+    // minWidth: '90px',
+  },
+  pink: {
+    color: theme.palette.getContrastText(pink[500]),
+    backgroundColor: pink[500],
+    width: theme.spacing(5),
+    height: theme.spacing(5),
+  },
+  green: {
+    color: '#fff',
+    backgroundColor: green[500],
+    width: theme.spacing(5),
+    height: theme.spacing(5),
+  },
+  orange: {
+    color: '#fff',
+    backgroundColor: deepOrange[500],
+    width: theme.spacing(5),
+    height: theme.spacing(5),
+  },
 });
 
 class PaymentList extends Component {
   state = {
     isMenuOpen: false,
-    anchorEl: null
-  }
+    anchorEl: null,
+  };
 
-  componentWillMount() {
+  componentDidMount() {
     this.props.fetchPayments();
     this.props.fetchPaymentStats();
   }
@@ -39,12 +68,12 @@ class PaymentList extends Component {
     this.setState({ isMenuOpen: false, anchorEl: null });
   }
 
-  edit(id){
-    console.log(id+' edited');
+  edit(id) {
+    console.log(id + ' edited');
   }
 
-  delete(id){
-    console.log(id+' delete');
+  delete(id) {
+    console.log(id + ' delete');
   }
 
   render() {
@@ -52,63 +81,38 @@ class PaymentList extends Component {
     const { payments, loading } = this.props;
     if (loading) return <LoadingIndicater />;
     return (
-      // <Item.Group divided>
-      //   {payments.map((payment) => (
-      //     <Item key={payment._id}>
-      //       <Icon as={Item.Image} className={`fa fa-4x fa-${payment.service.icon}`} />
-      //       <Item.Content>
-      //         <Item.Header as='a'>{payment.service.name}</Item.Header>
-      //         <Item.Description>
-      //           Mada a payment to{' '}
-      //           <a>
-      //             <b>{payment.vendor.name}</b>
-      //           </a>{' '}
-      //           just now.
-      //         </Item.Description>
-      //       </Item.Content>
-      //       <Button animated>
-      //         <Button.Content visible primary>Edit</Button.Content>
-      //         <Button.Content hidden>
-      //           <Icon name='pencil' />
-      //         </Button.Content>
-      //       </Button>
-      //       <Button animated color='red'>
-      //         <Button.Content visible primary>Del</Button.Content>
-      //         <Button.Content hidden>
-      //           <Icon name='trash' />
-      //         </Button.Content>
-      //       </Button>
-      //     </Item>
-      //   ))}
-      // </Item.Group>
       <List className={classes.root}>
         {payments.map((payment) => {
           const secondaryText = `amount of ${payment.amount}.`;
-          const {isMenuOpen, anchorEl} = this.state;
+          const { isMenuOpen, anchorEl } = this.state;
           const menu = {
             edit: () => this.edit(payment._id),
-            delete: () => this.delete(payment._id)
+            delete: () => this.delete(payment._id),
           };
           return (
             <ListItem alignItems='flex-start' key={payment._id}>
-              <ListItemIcon className={classes.icon}>
-                <Icon
-                  className={`fa fa-4x fa-${payment.service.icon}`}
-                />
-              </ListItemIcon>
-              <ListItemText primary={payment.vendor.name} secondary={secondaryText} />
+              <ListItemAvatar>
+                <Avatar className={classes.green}>
+                  <Icon className={`fa fa-${payment.service.icon}`} />
+                </Avatar>
+              </ListItemAvatar>
+              <ListItemText
+                primary={payment.vendor.name}
+                secondary={secondaryText}
+              />
               <ListItemSecondaryAction>
-                <Checkbox
-                  edge="end"
-                  // onChange={handleToggle(value)}
-                  // checked={checked.indexOf(value) !== -1}
-                  // inputProps={{ 'aria-labelledby': labelId }}
+                <Button onClick={(evt) => this.openMenu(evt)} variant='outlined'>
+                  <DehazeIcon />
+                </Button>
+                <ActionMenu
+                  isOpen={isMenuOpen}
+                  anchorEl={anchorEl}
+                  handleClose={() => this.closeMenu()}
+                  actions={menu}
                 />
-                <Button onClick={ (evt) => this.openMenu(evt) }>Actions</Button>
-                <ActionMenu isOpen={isMenuOpen} anchorEl={anchorEl} handleClose={() => this.closeMenu()} actions={menu} />
               </ListItemSecondaryAction>
             </ListItem>
-          )
+          );
         })}
       </List>
     );

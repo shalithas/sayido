@@ -88,7 +88,7 @@ export const fetchPayments = () => {
       }, 500);
     } catch (error) {
       console.log(error);
-      dispatch(asyncActionError);
+      dispatch(asyncActionError());
       toastr.error('Opps', 'Something went wrong');
     }
   };

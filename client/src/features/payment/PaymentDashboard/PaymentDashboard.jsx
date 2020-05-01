@@ -1,7 +1,6 @@
 import React, { Fragment } from 'react';
 import { Grid, Icon, Button } from 'semantic-ui-react';
 import PaymentList from '../PaymentList/PaymentList';
-import { Link } from 'react-router-dom';
 import PaymentStats from '../PaymentStats/PaymentStats';
 import { openModal } from '../../models/modalActions';
 import { connect } from 'react-redux';

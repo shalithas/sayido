@@ -7,6 +7,7 @@ import { combineValidators, isRequired } from 'revalidate';
 import { closeModal } from '../../models/modalActions';
 import { connect } from 'react-redux';
 import { fetchVendors } from '../../vendor/vendorActions';
+import { fetchServices } from '../../service/serviceActions';
 
 const validate = combineValidators({
   amount: isRequired({ message: 'Payment amount is empty' }),
@@ -30,20 +31,22 @@ const prepareOptions = (list) => {
 
 class PaymentForm extends Component {
   componentDidMount() {
-    this.props.fetchVendors();
+    const { fetchVendors, fetchServices } = this.props;
+    fetchVendors();
+    fetchServices();
   }
 
   render() {
-    const options = [{ text: 'Test', value: 'test', key: 0 }];
-    const { invalid, submitting, pristine, closeModal, vendors } = this.props;
+    const { invalid, submitting, pristine, closeModal, vendors, services } = this.props;
     const vendorOptions = prepareOptions(vendors);
+    const serviceOptions = prepareOptions(services);
     return (
       <Form autoComplete='off'>
         <Header color='teal' content='Payment Info' />
         <Field
           component={SelectInput}
           name='service'
-          options={options}
+          options={serviceOptions}
           placeholder='Service'
         />
         <Field
@@ -76,12 +79,14 @@ class PaymentForm extends Component {
 const mapState = (state, ownProps) => {
   return {
     vendors: state.vendors.list,
+    services: state.services.list,
   };
 };
 
 const actions = {
   closeModal,
   fetchVendors,
+  fetchServices
 };
 
 export default connect(

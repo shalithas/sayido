@@ -5,6 +5,7 @@ import { reducer as formReducer } from "redux-form";
 import { reducer as toastreducer } from "react-redux-toastr";
 import modalReducer from "../../features/models/modalReducer";
 import paymentReducer from "../../features/payment/paymentReducer";
+import vendorReducer from "../../features/vendor/vendorReducer";
 
 const rootReducer = combineReducers({
     guests: guestReducer,
@@ -12,7 +13,8 @@ const rootReducer = combineReducers({
     form: formReducer,
     modals: modalReducer,
     toastr: toastreducer,
-    payments: paymentReducer
+    payments: paymentReducer,
+    vendors: vendorReducer
 });
 
 export default rootReducer;

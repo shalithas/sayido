@@ -6,6 +6,7 @@ import { reducer as toastreducer } from "react-redux-toastr";
 import modalReducer from "../../features/models/modalReducer";
 import paymentReducer from "../../features/payment/paymentReducer";
 import vendorReducer from "../../features/vendor/vendorReducer";
+import serviceReducer from "../../features/service/serviceReducer";
 
 const rootReducer = combineReducers({
     guests: guestReducer,
@@ -14,7 +15,8 @@ const rootReducer = combineReducers({
     modals: modalReducer,
     toastr: toastreducer,
     payments: paymentReducer,
-    vendors: vendorReducer
+    vendors: vendorReducer,
+    services: serviceReducer,
 });
 
 export default rootReducer;

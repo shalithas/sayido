@@ -10,7 +10,7 @@ class PaymentFormModal extends Component {
   render() {
     return (
       <Modal size='small' open={true} onClose={this.props.closeModal}>
-        <Modal.Header>Edit Guest</Modal.Header>
+        <Modal.Header>Payment</Modal.Header>
         <Modal.Content>
           <Modal.Description>
             <PaymentForm />

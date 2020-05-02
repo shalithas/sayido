@@ -13,6 +13,7 @@ import {
   Icon,
   ListItemAvatar,
   Avatar,
+  Slide,
 } from '@material-ui/core';
 import ActionMenu from '../../../app/common/ActionMenu';
 import { deepOrange, pink, green } from '@material-ui/core/colors';
@@ -90,28 +91,33 @@ class PaymentList extends Component {
             delete: () => this.delete(payment._id),
           };
           return (
-            <ListItem alignItems='flex-start' key={payment._id}>
-              <ListItemAvatar>
-                <Avatar className={classes.green}>
-                  <Icon className={`fa fa-${payment.service.icon}`} />
-                </Avatar>
-              </ListItemAvatar>
-              <ListItemText
-                primary={payment.vendor.name}
-                secondary={secondaryText}
-              />
-              <ListItemSecondaryAction>
-                <Button onClick={(evt) => this.openMenu(evt)} variant='outlined'>
-                  <DehazeIcon />
-                </Button>
-                <ActionMenu
-                  isOpen={isMenuOpen}
-                  anchorEl={anchorEl}
-                  handleClose={() => this.closeMenu()}
-                  actions={menu}
+            <Slide direction='right' key={payment._id} in={true}>
+              <ListItem alignItems='flex-start'>
+                <ListItemAvatar>
+                  <Avatar className={classes.green}>
+                    <Icon className={`fa fa-${payment.service.icon}`} />
+                  </Avatar>
+                </ListItemAvatar>
+                <ListItemText
+                  primary={payment.vendor.name}
+                  secondary={secondaryText}
                 />
-              </ListItemSecondaryAction>
-            </ListItem>
+                <ListItemSecondaryAction>
+                  <Button
+                    onClick={(evt) => this.openMenu(evt)}
+                    variant='outlined'
+                  >
+                    <DehazeIcon />
+                  </Button>
+                  <ActionMenu
+                    isOpen={isMenuOpen}
+                    anchorEl={anchorEl}
+                    handleClose={() => this.closeMenu()}
+                    actions={menu}
+                  />
+                </ListItemSecondaryAction>
+              </ListItem>
+            </Slide>
           );
         })}
       </List>

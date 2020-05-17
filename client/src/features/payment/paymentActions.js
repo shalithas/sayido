@@ -41,7 +41,7 @@ export const updatePayment = (id, payment) => {
   return async (dispatch) => {
     dispatch(asyncActionStart());
     try {
-      await Axios.put(`url/${id}`, payment);
+      await Axios.put(`${url}/${id}`, payment);
       dispatch({
         type: UPDATE_PAYMENT,
         payload: { payment },

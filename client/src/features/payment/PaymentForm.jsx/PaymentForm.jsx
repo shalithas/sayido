@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Form, Header, Button } from 'semantic-ui-react';
-import { Field, reduxForm } from 'redux-form';
+import { Field, reduxForm, initialize } from 'redux-form';
 import TextInput from '../../../app/common/form/TextInput';
 import SelectInput from '../../../app/common/form/SelectInput';
 import { combineValidators, isRequired } from 'revalidate';
@@ -8,7 +8,7 @@ import { closeModal } from '../../models/modalActions';
 import { connect } from 'react-redux';
 import { fetchVendors } from '../../vendor/vendorActions';
 import { fetchServices } from '../../service/serviceActions';
-import { unselectPayment } from '../paymentActions';
+import { unselectPayment, createPayment, updatePayment } from '../paymentActions';
 
 const validate = combineValidators({
   amount: isRequired({ message: 'Payment amount is empty' }),
@@ -41,12 +41,33 @@ class PaymentForm extends Component {
     this.props.unselectPayment();
   }
 
+  onFormSubmit = (formData) => {
+    const { createPayment, closeModal, initialValues, updatePayment } = this.props;
+    const {
+      amount,
+      service,
+      vendor
+    } = formData;
+    const payment = {
+      amount,
+      serviceId: service,
+      vendorId: vendor
+    };
+
+    if(initialValues._id){
+      updatePayment(initialValues._id, payment);
+    } else {
+      createPayment(payment);
+    } 
+    closeModal();
+  }
+
   render() {
-    const { invalid, submitting, pristine, closeModal, vendors, services } = this.props;
+    const { invalid, submitting, pristine, closeModal, vendors, services, handleSubmit } = this.props;
     const vendorOptions = prepareOptions(vendors);
     const serviceOptions = prepareOptions(services);
     return (
-      <Form autoComplete='off'>
+      <Form autoComplete='off' name='paymentForm' onSubmit={handleSubmit(this.onFormSubmit)}>
         <Header color='teal' content='Payment Info' />
         <Field
           component={SelectInput}
@@ -102,7 +123,9 @@ const actions = {
   closeModal,
   fetchVendors,
   fetchServices,
-  unselectPayment
+  unselectPayment,
+  createPayment,
+  updatePayment,
 };
 
 export default connect(

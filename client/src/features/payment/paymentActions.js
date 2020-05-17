@@ -29,6 +29,7 @@ export const createPayment = (payment) => {
       });
       dispatch(asyncActionFinish());
       toastr.success('Success!', 'Payment created');
+      dispatch(fetchPayments());
     } catch (error) {
       console.log(error);
       dispatch(asyncActionError);
@@ -48,6 +49,7 @@ export const updatePayment = (id, payment) => {
       });
       dispatch(asyncActionFinish());
       toastr.success('Success!', 'Payment updated');
+      dispatch(fetchPayments());
     } catch (error) {
       console.log(error);
       dispatch(asyncActionError);
@@ -67,6 +69,7 @@ export const deletePayment = (id) => {
       dispatch(asyncActionFinish());
       dispatch(fetchPayments());
       toastr.success('Success!', 'Payment deleted');
+      dispatch(fetchPayments());
     } catch (error) {
       console.log(error);
       dispatch(asyncActionError);

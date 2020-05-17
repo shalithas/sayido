@@ -1,5 +1,5 @@
 import React, { Fragment } from 'react';
-import { Grid, Icon, Button } from 'semantic-ui-react';
+import { Grid } from 'semantic-ui-react';
 import PaymentList from '../PaymentList/PaymentList';
 import PaymentStats from '../PaymentStats/PaymentStats';
 import { openModal } from '../../models/modalActions';

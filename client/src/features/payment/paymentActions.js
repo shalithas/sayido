@@ -105,7 +105,6 @@ export const fetchPaymentStats = () => {
     try {
       const res = await Axios.get(`${url}/stats`);
       const stats = res.data;
-      console.log(stats);
       dispatch({
         type: FETCH_PAYMENT_STATS,
         payload: { stats },

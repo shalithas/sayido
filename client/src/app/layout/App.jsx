@@ -8,6 +8,7 @@ import GuestForm from "../../features/guest/GuestForm/GuestForm";
 import ModalManager from "../../features/models/ModalManager";
 import PaymentDashboard from "../../features/payment/PaymentDashboard/PaymentDashboard";
 import { withStyles } from "@material-ui/core";
+import SettingsPage from "../../features/user/SettingsPage/SettingsPage";
 
 const useStyles = theme => ({
   content: {
@@ -32,6 +33,7 @@ class App extends Component {
           <Route path='/guests/new' exact component={GuestForm} />
           <Route path='/guests/:guestId/edit' exact component={GuestForm} />
           <Route path='/payments' exact component={PaymentDashboard} />
+          <Route path='/settings' exact component={SettingsPage} />
         </div>
       </Fragment>
     );

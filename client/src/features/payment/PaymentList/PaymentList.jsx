@@ -72,13 +72,11 @@ class PaymentList extends Component {
   }
 
   edit(id) {
-    console.log(id + ' edited');
     this.props.fetchPayment(id);
     this.props.openModal('PaymentFormModal');
   }
 
   delete(id) {
-    console.log(id + ' delete');
     const toastrConfirmOptions = {
       onOk: () => this.props.deletePayment(id)
     };

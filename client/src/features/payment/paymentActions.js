@@ -11,6 +11,8 @@ import {
   DELETE_PAYMENT,
   FETCH_PAYMENTS,
   FETCH_PAYMENT_STATS,
+  FETCH_PAYMENT,
+  UNSELECT_PAYMENT,
 } from './paymentConsts';
 import { toastr } from 'react-redux-toastr';
 
@@ -115,3 +117,30 @@ export const fetchPaymentStats = () => {
     }
   };
 };
+
+export const fetchPayment = (id) => {
+  return async (dispatch) => {
+    dispatch(asyncActionStart());
+    try {
+      const res = await Axios.get(`${url}/${id}`);
+      const payment = res.data;
+      dispatch({
+        type: FETCH_PAYMENT,
+        payload: { payment },
+      });
+      setTimeout(() => {
+        dispatch(asyncActionFinish());
+      }, 500);
+    } catch (error) {
+      console.log(error);
+      dispatch(asyncActionError());
+      toastr.error('Opps', 'Something went wrong');
+    }
+  };
+};
+
+export const unselectPayment = () => {
+  return {
+    type: UNSELECT_PAYMENT
+  }
+}

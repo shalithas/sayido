@@ -59,7 +59,7 @@ class GuestForm extends Component {
     count: 0
   };
 
-  componentWillMount() {
+  componentDidMount() {
     const { match, fetchGuest, unselectGuest, fetchStats } = this.props;
     const guestId = match.params.guestId;
 
@@ -69,9 +69,7 @@ class GuestForm extends Component {
     } else {
       unselectGuest();
     }
-  }
 
-  componentDidMount() {
     if (this.props.stats) {
       this.setState({
         count: this.props.stats.count + 1

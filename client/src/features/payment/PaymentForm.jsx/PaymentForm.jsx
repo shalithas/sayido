@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Form, Header, Button } from 'semantic-ui-react';
-import { Field, reduxForm, initialize } from 'redux-form';
+import { Field, reduxForm } from 'redux-form';
 import TextInput from '../../../app/common/form/TextInput';
 import SelectInput from '../../../app/common/form/SelectInput';
 import { combineValidators, isRequired } from 'revalidate';
@@ -31,7 +31,7 @@ const prepareOptions = (list) => {
 };
 
 class PaymentForm extends Component {
-  componentWillMount() {
+  componentDidMount() {
     const { fetchVendors, fetchServices } = this.props;
     fetchVendors();
     fetchServices();

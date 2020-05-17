@@ -76,7 +76,6 @@ const NavBar = () => {
   };
 
   const handleLinkClick = (page) => event  => {
-    console.log(page);
     setState({
       ...state,
       isOpen: false,

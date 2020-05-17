@@ -21,6 +21,12 @@ router.get('/stats', auth, async (req, res) => {
   res.send(stats);
 });
 
+router.get('/:id', auth, async (req, res) => {
+  const payment = await Payment.findById(req.params.id).select('-userId');
+
+  res.send(payment);
+});
+
 router.post('/', auth, async (req, res) => {
   const { error } = validate(req.body);
   if (error) return res.status(400).send(error.details[0].message);

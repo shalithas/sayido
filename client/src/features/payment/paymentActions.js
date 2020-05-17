@@ -60,12 +60,12 @@ export const deletePayment = (id) => {
   return async (dispatch) => {
     dispatch(asyncActionStart());
     try {
-      await Axios.delete(`url/${id}`);
+      await Axios.delete(`${url}/${id}`);
       dispatch({
-        type: DELETE_PAYMENT,
-        payload: { id },
+        type: DELETE_PAYMENT
       });
       dispatch(asyncActionFinish());
+      dispatch(fetchPayments());
       toastr.success('Success!', 'Payment deleted');
     } catch (error) {
       console.log(error);

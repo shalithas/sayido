@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { fetchPayments, fetchPaymentStats, fetchPayment } from '../paymentActions';
+import { fetchPayments, fetchPaymentStats, fetchPayment, deletePayment } from '../paymentActions';
 import { connect } from 'react-redux';
 import LoadingIndicater from '../../../app/layout/LoadingIndicater';
 import '@fortawesome/fontawesome-free/js/all';
@@ -19,6 +19,7 @@ import ActionMenu from '../../../app/common/ActionMenu';
 import { deepOrange, pink, green } from '@material-ui/core/colors';
 import DehazeIcon from '@material-ui/icons/Dehaze';
 import { openModal } from '../../models/modalActions';
+import { toastr } from 'react-redux-toastr';
 
 const useStyles = (theme) => ({
   root: {
@@ -78,6 +79,10 @@ class PaymentList extends Component {
 
   delete(id) {
     console.log(id + ' delete');
+    const toastrConfirmOptions = {
+      onOk: () => this.props.deletePayment(id)
+    };
+    toastr.confirm('Are you sure about that!', toastrConfirmOptions);
   }
 
   render() {
@@ -140,6 +145,7 @@ const actions = {
   fetchPaymentStats,
   fetchPayment,
   openModal,
+  deletePayment,
 };
 
 export default connect(mapState, actions)(withStyles(useStyles)(PaymentList));

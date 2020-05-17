@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { fetchPayments, fetchPaymentStats } from '../paymentActions';
+import { fetchPayments, fetchPaymentStats, fetchPayment } from '../paymentActions';
 import { connect } from 'react-redux';
 import LoadingIndicater from '../../../app/layout/LoadingIndicater';
 import '@fortawesome/fontawesome-free/js/all';
@@ -18,6 +18,7 @@ import {
 import ActionMenu from '../../../app/common/ActionMenu';
 import { deepOrange, pink, green } from '@material-ui/core/colors';
 import DehazeIcon from '@material-ui/icons/Dehaze';
+import { openModal } from '../../models/modalActions';
 
 const useStyles = (theme) => ({
   root: {
@@ -71,6 +72,8 @@ class PaymentList extends Component {
 
   edit(id) {
     console.log(id + ' edited');
+    this.props.fetchPayment(id);
+    this.props.openModal('PaymentFormModal');
   }
 
   delete(id) {
@@ -135,6 +138,8 @@ const mapState = (state, ownProps) => {
 const actions = {
   fetchPayments,
   fetchPaymentStats,
+  fetchPayment,
+  openModal,
 };
 
 export default connect(mapState, actions)(withStyles(useStyles)(PaymentList));

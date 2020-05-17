@@ -8,6 +8,7 @@ import { closeModal } from '../../models/modalActions';
 import { connect } from 'react-redux';
 import { fetchVendors } from '../../vendor/vendorActions';
 import { fetchServices } from '../../service/serviceActions';
+import { unselectPayment } from '../paymentActions';
 
 const validate = combineValidators({
   amount: isRequired({ message: 'Payment amount is empty' }),
@@ -30,10 +31,14 @@ const prepareOptions = (list) => {
 };
 
 class PaymentForm extends Component {
-  componentDidMount() {
+  componentWillMount() {
     const { fetchVendors, fetchServices } = this.props;
     fetchVendors();
     fetchServices();
+  }
+
+  componentWillUnmount(){
+    this.props.unselectPayment();
   }
 
   render() {
@@ -77,19 +82,30 @@ class PaymentForm extends Component {
 }
 
 const mapState = (state, ownProps) => {
+  let payment = {};
+  
+  if(state.payments.selectedPayment){
+    payment = {...state.payments.selectedPayment};
+    payment.service = state.payments.selectedPayment.service ? state.payments.selectedPayment.service._id : null;
+    payment.vendor = state.payments.selectedPayment.vendor ? state.payments.selectedPayment.vendor._id : null;
+  }
+  
   return {
     vendors: state.vendors.list,
     services: state.services.list,
+    selectedPayment: state.payments.selectedPayment,
+    initialValues: payment
   };
 };
 
 const actions = {
   closeModal,
   fetchVendors,
-  fetchServices
+  fetchServices,
+  unselectPayment
 };
 
 export default connect(
   mapState,
   actions
-)(reduxForm({ form: 'paymentForm', validate })(PaymentForm));
+)(reduxForm({ form: 'paymentForm', validate, enableReinitialize: true  })(PaymentForm));

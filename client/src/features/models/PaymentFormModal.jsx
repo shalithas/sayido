@@ -2,18 +2,18 @@ import React, { Component } from "react";
 import { Modal } from "semantic-ui-react";
 import { connect } from "react-redux";
 import { closeModal } from "./modalActions";
-import GuestForm from "../guest/GuestForm/GuestForm";
+import PaymentForm from "../payment/PaymentForm.jsx/PaymentForm";
 
 const actions = { closeModal };
 
-class GuestModal extends Component {
+class PaymentFormModal extends Component {
   render() {
     return (
       <Modal size='small' open={true} onClose={this.props.closeModal}>
-        <Modal.Header>Edit Guest</Modal.Header>
+        <Modal.Header>Payment</Modal.Header>
         <Modal.Content>
           <Modal.Description>
-            <GuestForm />
+            <PaymentForm />
           </Modal.Description>
         </Modal.Content>
       </Modal>
@@ -21,4 +21,4 @@ class GuestModal extends Component {
   }
 }
 
-export default connect(null, actions)(GuestModal);
+export default connect(null, actions)(PaymentFormModal);

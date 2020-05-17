@@ -3,7 +3,7 @@ import Joi from 'joi';
 import { JWT_KEY } from '../../config';
 import mongoose from 'mongoose';
 
-const userSchema = new mongoose.Schema({
+export const userSchema = new mongoose.Schema({
   name: {
     type: String,
     required: true,

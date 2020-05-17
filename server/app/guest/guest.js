@@ -1,5 +1,5 @@
 import mongoose from 'mongoose';
-import Joi, { bool, boolean } from 'joi';
+import Joi from 'joi';
 
 export const guestSchema = new mongoose.Schema({
   name: {

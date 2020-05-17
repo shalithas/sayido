@@ -1,9 +1,9 @@
 import React from "react";
 import { connect } from "react-redux";
-import GuestModal from "./GuestModal";
+import PaymentFormModal from "./PaymentFormModal";
 
 const modalLookUp = {
-  GuestModal
+  PaymentFormModal
 };
 
 const mapState = state => ({

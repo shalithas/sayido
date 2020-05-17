@@ -7,24 +7,33 @@ const logger = winston.createLogger({
     new transports.File({
       filename: '../logs/error.log',
       level: 'error',
-      format: winston.format.json()
+      format: winston.format.json(),
     }),
     new transports.Http({
       level: 'warn',
-      format: winston.format.json()
+      format: winston.format.json(),
     }),
     new transports.Console({
       level: 'info',
       format: winston.format.combine(
         winston.format.colorize(),
         winston.format.prettyPrint()
-      )
-    })
+      ),
+    }),
   ],
-  exceptionHandlers: [new transports.File({ filename: '../logs/exceptions.log' })]
+  exceptionHandlers: [
+    new transports.File({ filename: '../logs/exceptions.log' }),
+    new transports.Console({
+      level: 'info',
+      format: winston.format.combine(
+        winston.format.colorize(),
+        winston.format.prettyPrint()
+      ),
+    }),
+  ],
 });
 
-process.on("unhandledRejection", ex => {
+process.on('unhandledRejection', (ex) => {
   throw ex;
 });
 
